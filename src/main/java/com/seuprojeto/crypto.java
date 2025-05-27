@@ -5,7 +5,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 public class crypto {
-    private static final String KEY = "123456789";
+    private static final String KEY = "1234567890ABCDEF";
     //A chave de acesso não pode ficar no codigo mas assim facilita por enquanto
 
     public static String encrypt(String data) {

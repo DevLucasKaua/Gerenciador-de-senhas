@@ -4,16 +4,19 @@ public class Credenciais {
     private String email;
     private String senha;
 
-    public Credenciais(String nome, String senha){
-        this.email = nome;
+    public Credenciais(String email, String senha){
+        this.email = email;
         this.senha = senha;
     }
 
-    public String getNome() {
+    public String getEmail() {
         return email;
     }
     public String getSenha() {
         return senha;
     }
 
+    public void add(Credenciais credenciais) {
+
+    }
 }
