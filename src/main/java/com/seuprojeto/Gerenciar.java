@@ -29,7 +29,7 @@ public class Gerenciar {
         String emailDestino = sc.nextLine();
 
 
-        String emailRemetente = "lucas.kaua@souunit.com.br";
+        String emailRemetente = "lucaskaua2003@gmail.com";
         String senhaRemetente = "myxa fwhh phor geel";
 
         boolean autenticado = Autenticador2FA.autenticar(emailDestino, emailRemetente, senhaRemetente);
