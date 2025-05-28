@@ -1,64 +1,43 @@
 package com.seuprojeto;
 
-import com.seuprojeto.crypto;
-import com.seuprojeto.Credenciais;
-
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Gerenciar {
-    private List<Credenciais> credenciais = new ArrayList<>();
-    private final SecureRandom random = new SecureRandom();
+    private List<Credenciais> listaCredenciais = new ArrayList<>();
 
     public void salvarCredenciais(Credenciais credenciais) {
-        this.credenciais.add(credenciais);
+        listaCredenciais.add(credenciais);
     }
 
     public void listarCredenciais(){
-        if(credenciais.isEmpty()){
+        if(listaCredenciais.isEmpty()){
             System.out.println("Nenhuma credencial encontrada");
             return;
         }
-        for (Credenciais cred : credenciais) {
-            System.out.println("Email: "+cred.getEmail());
-            System.out.println("Senha: "+crypto.decrypt(cred.getSenha()));
+        for (Credenciais cred : listaCredenciais) {
+            System.out.println("Email: " + cred.getEmail());
+            System.out.println("Senha: " + crypto.decrypt(cred.getSenha()));
             System.out.println("----------------------------------------");
         }
     }
 
-    public void autentificar(){
+    public void autentificar() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Digite seu email: ");
-        String email = sc.nextLine();
-        System.out.println("Digite seu senha: ");
-        String senha = sc.nextLine();
+        System.out.print("Digite seu e-mail para receber o código 2FA: ");
+        String emailDestino = sc.nextLine();
 
-        Credenciais usuario = null;
 
-        for (Credenciais cred : credenciais) {
-            if(cred.getEmail().equals(email) && crypto.decrypt(cred.getSenha()).equals(senha)){
-                usuario = cred;
-                break;
-            }
-        }
+        String emailRemetente = "lucas.kaua@souunit.com.br";
+        String senhaRemetente = "myxa fwhh phor geel";
 
-        if(usuario != null){
-            String codigo2 = String.format("%06d", random.nextInt(999999));
-            System.out.println("Seu codigo de autentificação é: "+codigo2);
+        boolean autenticado = Autenticador2FA.autenticar(emailDestino, emailRemetente, senhaRemetente);
 
-            System.out.print("Digite o codigo: ");
-            String codigo2Digitado = sc.nextLine();
-
-            if (codigo2.equals(codigo2Digitado)) {
-                System.out.println("Autentificação realizada com sucesso");
-            }
-            else {
-                System.out.println("Codigo incorreto");
-            }
+        if (autenticado) {
+            System.out.println("Acesso permitido");
         } else {
-            System.out.println("Email ou senha incorreto");
+            System.out.println("Acesso negado");
         }
     }
 }

@@ -15,7 +15,7 @@ public class Main {
         System.out.println("Gerenciador de Senhas");
 
         while (true) {
-            System.out.println("/nEscolha uma opção: ");
+            System.out.println("\nEscolha uma opção: ");
             System.out.println("1 - Adicionar uma credencial");
             System.out.println("2 - Gerar senha forte");
             System.out.println("3 - Mostrar as credenciais");
