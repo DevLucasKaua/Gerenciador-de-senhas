@@ -19,7 +19,8 @@ public class Main {
             System.out.println("1 - Adicionar uma credencial");
             System.out.println("2 - Gerar senha forte");
             System.out.println("3 - Mostrar as credenciais");
-            System.out.println("4 - Sair");
+            System.out.println("4 - Autentificação de 2 fatores");
+            System.out.println("5 - Sair");
             System.out.print("opção: ");
             int opcao = sc.nextInt();
             sc.nextLine();
@@ -45,6 +46,9 @@ public class Main {
                     gerenciar.listarCredenciais();
                     break;
                 case 4:
+                    gerenciar.autentificar();
+                    break;
+                case 5:
                     System.out.println("Saindo...");
                     System.exit(0);
                     break;
