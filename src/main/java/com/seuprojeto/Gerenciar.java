@@ -5,18 +5,22 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Gerenciar {
-    private List<Credenciais> listaCredenciais = new ArrayList<>();
+    private List<Credenciais> credenciais;
 
-    public void salvarCredenciais(Credenciais credenciais) {
-        listaCredenciais.add(credenciais);
+    public Gerenciar() {
+        this.credenciais = new ArrayList<>(); // ✅ Inicializa a lista corretamente
     }
 
-    public void listarCredenciais(){
-        if(listaCredenciais.isEmpty()){
+    public void salvarCredenciais(Credenciais credencial) {
+        credenciais.add(credencial);
+    }
+
+    public void listarCredenciais() {
+        if (credenciais.isEmpty()) {
             System.out.println("Nenhuma credencial encontrada");
             return;
         }
-        for (Credenciais cred : listaCredenciais) {
+        for (Credenciais cred : credenciais) {
             System.out.println("Email: " + cred.getEmail());
             System.out.println("Senha: " + crypto.decrypt(cred.getSenha()));
             System.out.println("----------------------------------------");
@@ -28,7 +32,6 @@ public class Gerenciar {
         System.out.print("Digite seu e-mail para receber o código 2FA: ");
         String emailDestino = sc.nextLine();
 
-
         String emailRemetente = "lucaskaua2003@gmail.com";
         String senhaRemetente = "myxa fwhh phor geel";
 
@@ -39,5 +42,9 @@ public class Gerenciar {
         } else {
             System.out.println("Acesso negado");
         }
+    }
+
+    public List<Credenciais> getCredenciais() {
+        return this.credenciais;
     }
 }
