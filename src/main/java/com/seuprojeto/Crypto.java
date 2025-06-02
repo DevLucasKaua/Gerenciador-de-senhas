@@ -1,7 +1,7 @@
 package com.seuprojeto;
 
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,23 +12,25 @@ import java.util.Properties;
 public class Crypto {
 
     private static final String CONFIG_PATH = "config/crypto.properties";
-    private static final int IV_LENGTH = 16;
-    
+    private static final int IV_LENGTH = 12; // Recomendado para GCM
+    private static final int TAG_LENGTH_BIT = 128; // Tag de autenticação GCM
+
     private Crypto() {
         throw new UnsupportedOperationException("Classe utilitária - não deve ser instanciada.");
     }
 
-    // Exceção dedicada para problemas na chave
+    // Exceção para problemas na chave
     public static class CryptoKeyException extends RuntimeException {
         public CryptoKeyException(String message, Throwable cause) {
             super(message, cause);
         }
+
         public CryptoKeyException(String message) {
             super(message);
         }
     }
 
-    // Exceção dedicada para falhas na criptografia/descriptografia
+    // Exceção para falhas na criptografia/descriptografia
     public static class CryptoOperationException extends RuntimeException {
         public CryptoOperationException(String message, Throwable cause) {
             super(message, cause);
@@ -54,10 +56,10 @@ public class Crypto {
             SecretKeySpec secretKey = getSecretKey();
             byte[] iv = new byte[IV_LENGTH];
             new SecureRandom().nextBytes(iv);
-            IvParameterSpec ivSpec = new IvParameterSpec(iv);
+            GCMParameterSpec gcmSpec = new GCMParameterSpec(TAG_LENGTH_BIT, iv);
 
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
+            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmSpec);
             byte[] encrypted = cipher.doFinal(data.getBytes());
 
             byte[] encryptedWithIv = new byte[IV_LENGTH + encrypted.length];
@@ -80,9 +82,9 @@ public class Crypto {
             System.arraycopy(encryptedWithIv, 0, iv, 0, IV_LENGTH);
             System.arraycopy(encryptedWithIv, IV_LENGTH, encrypted, 0, encrypted.length);
 
-            IvParameterSpec ivSpec = new IvParameterSpec(iv);
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivSpec);
+            GCMParameterSpec gcmSpec = new GCMParameterSpec(TAG_LENGTH_BIT, iv);
+            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmSpec);
 
             byte[] decrypted = cipher.doFinal(encrypted);
             return new String(decrypted);
