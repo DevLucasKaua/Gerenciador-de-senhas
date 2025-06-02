@@ -10,8 +10,23 @@ import java.util.Base64;
 import java.util.Properties;
 
 public class Crypto {
+
     private static final String CONFIG_PATH = "config/crypto.properties";
     private static final int IV_LENGTH = 16;
+
+    // Impede instanciação da classe
+    private Crypto() {
+        throw new UnsupportedOperationException("Classe utilitária - não deve ser instanciada.");
+    }
+
+    public static class CryptoKeyException extends RuntimeException {
+        public CryptoKeyException(String message, Throwable cause) {
+            super(message, cause);
+        }
+        public CryptoKeyException(String message) {
+            super(message);
+        }
+    }
 
     private static SecretKeySpec getSecretKey() {
         Properties properties = new Properties();
@@ -19,30 +34,25 @@ public class Crypto {
             properties.load(input);
             String key = properties.getProperty("secret.key");
             if (key == null || key.length() != 16) {
-                throw new IllegalArgumentException("A chave deve ter exatamente 16 caracteres.");
+                throw new CryptoKeyException("A chave deve ter exatamente 16 caracteres.");
             }
             return new SecretKeySpec(key.getBytes(), "AES");
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao carregar a chave secreta do arquivo.", e);
+            throw new CryptoKeyException("Erro ao carregar a chave secreta do arquivo.", e);
         }
     }
 
     public static String encrypt(String data) {
         try {
             SecretKeySpec secretKey = getSecretKey();
-
-            // Gera um IV aleatório
             byte[] iv = new byte[IV_LENGTH];
-            SecureRandom secureRandom = new SecureRandom();
-            secureRandom.nextBytes(iv);
+            new SecureRandom().nextBytes(iv);
             IvParameterSpec ivSpec = new IvParameterSpec(iv);
 
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
-
             byte[] encrypted = cipher.doFinal(data.getBytes());
 
-            // Prefixa o IV aos dados criptografados
             byte[] encryptedWithIv = new byte[IV_LENGTH + encrypted.length];
             System.arraycopy(iv, 0, encryptedWithIv, 0, IV_LENGTH);
             System.arraycopy(encrypted, 0, encryptedWithIv, IV_LENGTH, encrypted.length);
@@ -56,10 +66,8 @@ public class Crypto {
     public static String decrypt(String encryptedData) {
         try {
             SecretKeySpec secretKey = getSecretKey();
-
             byte[] encryptedWithIv = Base64.getDecoder().decode(encryptedData);
 
-            // Extrai o IV dos primeiros 16 bytes
             byte[] iv = new byte[IV_LENGTH];
             byte[] encrypted = new byte[encryptedWithIv.length - IV_LENGTH];
             System.arraycopy(encryptedWithIv, 0, iv, 0, IV_LENGTH);
