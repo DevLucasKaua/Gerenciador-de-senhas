@@ -1,25 +1,26 @@
 package com.seuprojeto;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Properties;
 
 public class Crypto {
     private static final String CONFIG_PATH = "config/crypto.properties";
+    private static final int IV_LENGTH = 16;
 
     private static SecretKeySpec getSecretKey() {
         Properties properties = new Properties();
         try (FileInputStream input = new FileInputStream(CONFIG_PATH)) {
             properties.load(input);
             String key = properties.getProperty("secret.key");
-
             if (key == null || key.length() != 16) {
                 throw new IllegalArgumentException("A chave deve ter exatamente 16 caracteres.");
             }
-
             return new SecretKeySpec(key.getBytes(), "AES");
         } catch (IOException e) {
             throw new RuntimeException("Erro ao carregar a chave secreta do arquivo.", e);
@@ -29,10 +30,24 @@ public class Crypto {
     public static String encrypt(String data) {
         try {
             SecretKeySpec secretKey = getSecretKey();
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+
+            // Gera um IV aleatório
+            byte[] iv = new byte[IV_LENGTH];
+            SecureRandom secureRandom = new SecureRandom();
+            secureRandom.nextBytes(iv);
+            IvParameterSpec ivSpec = new IvParameterSpec(iv);
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
+
             byte[] encrypted = cipher.doFinal(data.getBytes());
-            return Base64.getEncoder().encodeToString(encrypted);
+
+            // Prefixa o IV aos dados criptografados
+            byte[] encryptedWithIv = new byte[IV_LENGTH + encrypted.length];
+            System.arraycopy(iv, 0, encryptedWithIv, 0, IV_LENGTH);
+            System.arraycopy(encrypted, 0, encryptedWithIv, IV_LENGTH, encrypted.length);
+
+            return Base64.getEncoder().encodeToString(encryptedWithIv);
         } catch (Exception e) {
             throw new RuntimeException("Erro na criptografia", e);
         }
@@ -41,10 +56,20 @@ public class Crypto {
     public static String decrypt(String encryptedData) {
         try {
             SecretKeySpec secretKey = getSecretKey();
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            byte[] decoded = Base64.getDecoder().decode(encryptedData);
-            byte[] decrypted = cipher.doFinal(decoded);
+
+            byte[] encryptedWithIv = Base64.getDecoder().decode(encryptedData);
+
+            // Extrai o IV dos primeiros 16 bytes
+            byte[] iv = new byte[IV_LENGTH];
+            byte[] encrypted = new byte[encryptedWithIv.length - IV_LENGTH];
+            System.arraycopy(encryptedWithIv, 0, iv, 0, IV_LENGTH);
+            System.arraycopy(encryptedWithIv, IV_LENGTH, encrypted, 0, encrypted.length);
+
+            IvParameterSpec ivSpec = new IvParameterSpec(iv);
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivSpec);
+
+            byte[] decrypted = cipher.doFinal(encrypted);
             return new String(decrypted);
         } catch (Exception e) {
             throw new RuntimeException("Erro na descriptografia", e);
