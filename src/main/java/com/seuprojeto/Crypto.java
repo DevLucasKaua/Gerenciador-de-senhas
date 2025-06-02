@@ -31,18 +31,16 @@ public class Crypto {
         try {
             SecretKeySpec secretKey = getSecretKey();
 
-            // Gera um IV aleatório
             byte[] iv = new byte[IV_LENGTH];
             SecureRandom secureRandom = new SecureRandom();
             secureRandom.nextBytes(iv);
             IvParameterSpec ivSpec = new IvParameterSpec(iv);
 
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding"); 
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
 
             byte[] encrypted = cipher.doFinal(data.getBytes());
 
-            // Prefixa o IV aos dados criptografados
             byte[] encryptedWithIv = new byte[IV_LENGTH + encrypted.length];
             System.arraycopy(iv, 0, encryptedWithIv, 0, IV_LENGTH);
             System.arraycopy(encrypted, 0, encryptedWithIv, IV_LENGTH, encrypted.length);
@@ -59,7 +57,6 @@ public class Crypto {
 
             byte[] encryptedWithIv = Base64.getDecoder().decode(encryptedData);
 
-            // Extrai o IV dos primeiros 16 bytes
             byte[] iv = new byte[IV_LENGTH];
             byte[] encrypted = new byte[encryptedWithIv.length - IV_LENGTH];
             System.arraycopy(encryptedWithIv, 0, iv, 0, IV_LENGTH);
