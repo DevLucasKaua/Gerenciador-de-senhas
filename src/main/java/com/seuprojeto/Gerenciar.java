@@ -8,7 +8,7 @@ public class Gerenciar {
     private List<Credenciais> credenciais;
 
     public Gerenciar() {
-        this.credenciais = new ArrayList<>(); // ✅ Inicializa a lista corretamente
+        this.credenciais = new ArrayList<>();
     }
 
     public void salvarCredenciais(Credenciais credencial) {
@@ -22,7 +22,7 @@ public class Gerenciar {
         }
         for (Credenciais cred : credenciais) {
             System.out.println("Email: " + cred.getEmail());
-            System.out.println("Senha: " + crypto.decrypt(cred.getSenha()));
+            System.out.println("Senha: " + Crypto.decrypt(cred.getSenha()));
             System.out.println("----------------------------------------");
         }
     }

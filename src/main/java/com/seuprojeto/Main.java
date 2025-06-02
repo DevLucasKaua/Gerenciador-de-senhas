@@ -1,6 +1,6 @@
 package com.seuprojeto;
 
-import com.seuprojeto.crypto;
+import com.seuprojeto.Crypto;
 import com.seuprojeto.Credenciais;
 import com.seuprojeto.Gerenciar;
 import com.seuprojeto.cadastro_senhas;
@@ -32,7 +32,7 @@ public class Main {
                     System.out.print("Senha: ");
                     String senha = sc.nextLine();
 
-                    String encryptedPassword = crypto.encrypt(senha);
+                    String encryptedPassword = Crypto.encrypt(senha);
                     Credenciais credenciais = new Credenciais(usuario, encryptedPassword);
                     gerenciar.salvarCredenciais(credenciais);
 
