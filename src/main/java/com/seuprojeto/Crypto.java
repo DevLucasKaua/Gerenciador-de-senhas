@@ -13,18 +13,25 @@ public class Crypto {
 
     private static final String CONFIG_PATH = "config/crypto.properties";
     private static final int IV_LENGTH = 16;
-
-    // Impede instanciação da classe
+    
     private Crypto() {
         throw new UnsupportedOperationException("Classe utilitária - não deve ser instanciada.");
     }
 
+    // Exceção dedicada para problemas na chave
     public static class CryptoKeyException extends RuntimeException {
         public CryptoKeyException(String message, Throwable cause) {
             super(message, cause);
         }
         public CryptoKeyException(String message) {
             super(message);
+        }
+    }
+
+    // Exceção dedicada para falhas na criptografia/descriptografia
+    public static class CryptoOperationException extends RuntimeException {
+        public CryptoOperationException(String message, Throwable cause) {
+            super(message, cause);
         }
     }
 
@@ -59,7 +66,7 @@ public class Crypto {
 
             return Base64.getEncoder().encodeToString(encryptedWithIv);
         } catch (Exception e) {
-            throw new RuntimeException("Erro na criptografia", e);
+            throw new CryptoOperationException("Erro na criptografia", e);
         }
     }
 
@@ -80,7 +87,7 @@ public class Crypto {
             byte[] decrypted = cipher.doFinal(encrypted);
             return new String(decrypted);
         } catch (Exception e) {
-            throw new RuntimeException("Erro na descriptografia", e);
+            throw new CryptoOperationException("Erro na descriptografia", e);
         }
     }
 }
