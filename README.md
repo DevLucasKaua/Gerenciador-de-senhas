@@ -4,8 +4,7 @@
 [![Java](https://img.shields.io/badge/Java-ED8B00?logo=java&logoColor=white)](https://www.java.com/)
 [![JavaFX](https://img.shields.io/badge/JavaFX-1a73e8?logo=oracle&logoColor=white)](https://openjfx.io/)
 [![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)](https://sqlite.org/index.html)
-
-[![License: MIT](https://img.shields.io/github/license/DevLucasKaua/Gerenciador-de-senhas.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/DevLucasKaua/Gerenciador-de-senhas.svg)](https://github.com/DevLucasKaua/Gerenciador-de-senhas/commits/main)
 [![Issues](https://img.shields.io/github/issues/DevLucasKaua/Gerenciador-de-senhas.svg)](https://github.com/DevLucasKaua/Gerenciador-de-senhas/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/DevLucasKaua/Gerenciador-de-senhas.svg)](https://github.com/DevLucasKaua/Gerenciador-de-senhas/pulls)
