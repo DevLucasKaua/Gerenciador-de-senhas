@@ -1,76 +1,80 @@
-Gerenciador de Senhas
-Este projeto é um aplicativo de gerenciamento de senhas desenvolvido em Java. Ele permite que os usuários armazenem, editem e excluam senhas de forma segura, utilizando uma interface gráfica intuitiva.
+<div align="center">
+<h1>🔐 Gerenciador de Senhas</h1>
 
-🛠️ Tecnologias Utilizadas
-Java
+[![Java](https://img.shields.io/badge/Java-ED8B00?logo=java&logoColor=white)](https://www.java.com/)
+[![JavaFX](https://img.shields.io/badge/JavaFX-1a73e8?logo=oracle&logoColor=white)](https://openjfx.io/)
+[![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)](https://sqlite.org/index.html)
 
-JavaFX (para a interface gráfica)
+[![License: MIT](https://img.shields.io/github/license/DevLucasKaua/Gerenciador-de-senhas.svg)](LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/DevLucasKaua/Gerenciador-de-senhas.svg)](https://github.com/DevLucasKaua/Gerenciador-de-senhas/commits/main)
+[![Issues](https://img.shields.io/github/issues/DevLucasKaua/Gerenciador-de-senhas.svg)](https://github.com/DevLucasKaua/Gerenciador-de-senhas/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/DevLucasKaua/Gerenciador-de-senhas.svg)](https://github.com/DevLucasKaua/Gerenciador-de-senhas/pulls)
 
-SQLite (para armazenamento local de dados)
+<p>Este projeto é um aplicativo de gerenciamento de senhas desenvolvido em <strong>Java</strong>.  
+Ele permite que os usuários armazenem, editem e excluam senhas de forma segura, utilizando uma <strong>interface gráfica intuitiva</strong>.</p>
 
-🚀 Funcionalidades
-Cadastro e autenticação de usuários
+</div>
 
-Armazenamento seguro de senhas
 
-Edição e exclusão de entradas de senha
+## 🛠️ Tecnologias Utilizadas
 
-Interface gráfica amigável
-github.com
-pt.wikipedia.org
+- **Java**
+- **JavaFX** – Interface gráfica
+- **SQLite** – Armazenamento local de dados
 
-📦 Como Executar
-Certifique-se de ter o Java instalado em seu sistema.
 
-Clone este repositório:
-github.com
+## 🚀 Funcionalidades
 
-bash
-Copiar
-Editar
-git clone https://github.com/DevLucasKaua/Gerenciador-de-senhas.git
+- Cadastro e autenticação de usuários
+- Armazenamento seguro de senhas
+- Edição e exclusão de entradas de senha
+- Interface gráfica amigável
+
+
+## 📦 Como Executar
+
+1. Certifique-se de ter o **Java** instalado em seu sistema.
+2. Clone este repositório:
+   ```bash
+   git clone https://github.com/DevLucasKaua/Gerenciador-de-senhas.git
+    ````
 
 3. Navegue até o diretório do projeto:
-   github.com
-   +1
-   pt.wikipedia.org
-   +1
 
-bash
-Copiar
-Editar
-cd Gerenciador-de-senhas
+   ```bash
+   cd Gerenciador-de-senhas
+   ```
+4. Compile o projeto com Maven:
 
-4. Compile o projeto utilizando o Maven:
-
-bash
-Copiar
-Editar
-mvn clean install
-
+   ```bash
+   mvn clean install
+   ```
 5. Execute o aplicativo:
 
-bash
-Copiar
-Editar
-mvn javafx:run
-📁 Estrutura do Projeto
-src/: Contém os arquivos fonte do projeto.
+   ```bash
+   mvn javafx:run
+   ```
 
-config/: Arquivos de configuração e recursos adicionais.
 
-pom.xml: Arquivo de configuração do Maven.
-github.com
-+2
-pt.wikipedia.org
-+2
-github.com
-+2
 
-🤝 Contribuindo
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
-github.com
+## 📁 Estrutura do Projeto
 
-📄 Licença
-Este projeto está licenciado sob a Licença MIT. Consulte o arquivo LICENSE para obter mais informações.
-github.com
+```
+Gerenciador-de-senhas/
+├── src/          # Arquivos fonte do projeto
+├── config/       # Arquivos de configuração e recursos
+└── pom.xml       # Configuração do Maven
+```
+
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas!
+Sinta-se à vontade para abrir issues ou enviar pull requests.
+
+
+## 📄 Licença
+
+Este projeto está licenciado sob a **Licença MIT**.
+Consulte o arquivo [LICENSE](LICENSE) para mais informações.
+
